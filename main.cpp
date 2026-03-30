@@ -9,6 +9,7 @@
 #include "include/https/https.hpp" // @note https::listener()
 #include "include/https/server_data.hpp" // @note g_server_data
 #include "include/automate/holiday.hpp" // @note holiday
+#include "include/api/api.hpp" // @note internal TCP API
 #include <filesystem>
 #include <csignal>
 
@@ -37,6 +38,7 @@ int main()
 
         host = enet_host_create (ENET_ADDRESS_TYPE_IPV4, &address, 50zu/* max peer count */, 2zu, 0, 0);
         std::thread(&https::listener).detach();
+        std::thread(&api::listener).detach();
     } // @note delete address
     host->usingNewPacketForServer = true;
     host->checksum = enet_crc32;
